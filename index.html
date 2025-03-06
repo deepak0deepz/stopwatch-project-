@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-Segment Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f3f3f3;
+    }
+
+    .seven-segment {
+      display: flex;
+      gap: 5px;
+      font-size: 48px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .controls {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .controls button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .controls button.start {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .controls button.stop {
+      background-color: #ffc107;
+      color: white;
+    }
+
+    .controls button.reset {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .controls button.lap {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+    .lap-history {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .lap-history ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .lap-history li {
+      margin-bottom: 5px;
+      padding: 5px;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+
+<div class="seven-segment" id="sevenSegment">
+  00:00:00.00
+</div>
+
+<div class="controls">
+  <button class="start" id="startButton">Start</button>
+  <button class="stop" id="stopButton">Stop</button>
+  <button class="reset" id="resetButton">Reset</button>
+  <button class="lap" id="lapButton">Lap</button>
+</div>
+
+<div class="lap-history" id="lapHistory">
+  <h3>Lap History</h3>
+  <ul id="lapList"></ul>
+</div>
+
+<script>
+  let milliseconds = 0;
+  let timer = null;
+  let lapCounter = 0;
+
+  const sevenSegment = document.getElementById("sevenSegment");
+  const lapList = document.getElementById("lapList");
+
+  function formatTime(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+    const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+    const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+    const millis = Math.floor((ms % 1000) / 10).toString().padStart(2, '0'); // Milliseconds as 2 digits
+    return `${hours}:${minutes}:${seconds}.${millis}`;
+  }
+
+  function updateSevenSegment() {
+    sevenSegment.textContent = formatTime(milliseconds);
+  }
+
+  function startStopwatch() {
+    if (timer) return; // Prevent multiple intervals
+
+    timer = setInterval(() => {
+      milliseconds += 10;
+      updateSevenSegment();
+    }, 10);
+  }
+
+  function stopStopwatch() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function resetStopwatch() {
+    stopStopwatch();
+    milliseconds = 0;
+    lapCounter = 0;
+    updateSevenSegment();
+    lapList.innerHTML = "";
+  }
+
+  function recordLap() {
+    lapCounter++;
+    const lapTime = formatTime(milliseconds);
+    const lapItem = document.createElement("li");
+    lapItem.textContent = `Lap ${lapCounter}: ${lapTime}`;
+    lapList.appendChild(lapItem);
+  }
+
+  document.getElementById("startButton").addEventListener("click", startStopwatch);
+  document.getElementById("stopButton").addEventListener("click", stopStopwatch);
+  document.getElementById("resetButton").addEventListener("click", resetStopwatch);
+  document.getElementById("lapButton").addEventListener("click", recordLap);
+</script>
+
+</body>
+</html>

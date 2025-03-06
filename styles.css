@@ -1,0 +1,74 @@
+/* Basic styles for the stopwatch */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #f3f3f3;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  #stopwatch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* For the digit look */
+  .digit {
+    width: 45px;
+    height: 90px;
+    background: #2a2a2a;
+    color: #e63946;
+    font-size: 60px;
+    font-weight: bold;
+    border: 2px solid #444;
+    margin: 0 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+  }
+  
+  /* For the colon separators */
+  .colon {
+    font-size: 60px;
+    margin: 0 5px;
+  }
+  
+  .buttons button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Button colors */
+  #startButton { background-color: #28a745; color: white; }
+  #pauseButton { background-color: #ffc107; color: white; }
+  #resetButton { background-color: #d9534f; color: white; }
+  #lapButton { background-color: #007bff; color: white; }
+  
+  /* Lap times list */
+  #lapTimesList {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+  
+  #lapTimesList li {
+    background: #444;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+  }
+  
